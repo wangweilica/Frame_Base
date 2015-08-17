@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+ 	xmlns:mvc="http://www.springframework.org/schema/mvc"  
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+   		 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+  		 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
+   		 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+   		 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+  	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理，3.04新增功能，需要重新设置spring-mvc-3.0.xsd -->  
+    <mvc:resources mapping="/resources/**" location="/resources/" />  
+     <!-- 拦截器 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" >  
+        <property name="interceptors">  
+           <!-- 多个拦截器,顺序执行 -->  
+           <list>  
+              <ref bean="commonInterceptor"/>  
+           </list>  
+        </property>  
+    </bean>  
+     <!--   
+             如果不定义mappingURL，则默认拦截所有对Controller的请求 ;   
+             可以使用正则表达式对url进行匹配，从而更细粒度的进行拦截(.*/entryOrJsonController\.do\?action=reg.*);  
+    -->  
+    <bean id="commonInterceptor" class="com.zkhy.contest.web.interceptor.CommonInterceptor">  
+       <property name="mappingURL" value="/*"/>  
+    </bean>  
+    
+	<!-- 标注类型 的事务配置 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<context:annotation-config />
+	<!-- 把标记了@Dao,@Service,@Controller注解的类转换为bean -->
+	<context:component-scan base-package="com.zkhy" />
+    <!-- ViewResolver -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>  
+        <property name="prefix" value="/pages/"/>  
+        <property name="suffix" value=".jsp"/>  
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+</beans>  

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry
+		location="D:\java\workspace-eclipse\code4job\WebRoot\WEB-INF\lib\mysql-connector-java-5.1.25-bin.jar" />
+		
+    <!-- Mac OS 
+    <classPathEntry
+        location="/Users/yachen/Workspaces/Java/code4job/WebRoot/WEB-INF/lib/mysql-connector-java-5.1.25-bin.jar" />-->
+	<context id="context" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="false" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://nccun.oicp.net/competition" userId="root"
+			password="root">
+		</jdbcConnection>
+
+		<javaModelGenerator targetPackage="com.zkhy.contest.web.dao.model"
+			targetProject="contest/src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.zkhy.contest.web.dao.mapper"
+			targetProject="contest/src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+ 
+		<javaClientGenerator targetPackage="com.zkhy.contest.web.dao.mapper"
+			targetProject="contest/src/main/java" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator> 
+
+        <table schema="contest" tableName="competition"
+            enableInsert="true" enableSelectByPrimaryKey="true"
+            enableSelectByExample="true" enableDeleteByExample="false"
+            enableCountByExample="true" enableUpdateByExample="true">
+        </table>
+        <table schema="contest" tableName="user"
+            enableInsert="true" enableSelectByPrimaryKey="true"
+            enableSelectByExample="true" enableDeleteByExample="false"
+            enableCountByExample="true" enableUpdateByExample="true">
+        </table>
+        <table schema="contest" tableName="apply"
+            enableInsert="true" enableSelectByPrimaryKey="true"
+            enableSelectByExample="true" enableDeleteByExample="false"
+            enableCountByExample="true" enableUpdateByExample="true">
+        </table>
+	</context>
+
+</generatorConfiguration>
